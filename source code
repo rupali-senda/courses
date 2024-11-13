@@ -1,0 +1,106 @@
+#include <iostream>
+#include <vector>
+#include <algorithm> // for std::sort used in binary search example
+
+// Bubble Sort
+void bubbleSort(std::vector<int>& arr) {
+    int n = arr.size();
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                std::swap(arr[j], arr[j + 1]);
+            }
+        }
+    }
+}
+
+// Selection Sort
+void selectionSort(std::vector<int>& arr) {
+    int n = arr.size();
+    for (int i = 0; i < n - 1; i++) {
+        int minIndex = i;
+        for (int j = i + 1; j < n; j++) {
+            if (arr[j] < arr[minIndex]) {
+                minIndex = j;
+            }
+        }
+        std::swap(arr[i], arr[minIndex]);
+    }
+}
+
+// Linear Search
+int linearSearch(const std::vector<int>& arr, int target) {
+    for (int i = 0; i < arr.size(); i++) {
+        if (arr[i] == target) {
+            return i; // return the index of the target element
+        }
+    }
+    return -1; // element not found
+}
+
+// Binary Search (assumes array is sorted)
+int binarySearch(const std::vector<int>& arr, int target) {
+    int left = 0;
+    int right = arr.size() - 1;
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        if (arr[mid] == target) {
+            return mid; // target found
+        } else if (arr[mid] < target) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+    return -1; // element not found
+}
+
+// Helper function to print the array
+void printArray(const std::vector<int>& arr) {
+    for (int i = 0; i < arr.size(); i++) {
+        std::cout << arr[i] << " ";
+    }
+    std::cout << std::endl;
+}
+
+int main() {
+    std::vector<int> arr = {64, 25, 12, 22, 11};
+    int target = 22;
+
+    // Bubble Sort
+    std::vector<int> bubbleArr = arr;
+    std::cout << "Original array for Bubble Sort: ";
+    printArray(bubbleArr);
+    bubbleSort(bubbleArr);
+    std::cout << "Sorted array using Bubble Sort: ";
+    printArray(bubbleArr);
+
+    // Selection Sort
+    std::vector<int> selectionArr = arr;
+    std::cout << "\nOriginal array for Selection Sort: ";
+    printArray(selectionArr);
+    selectionSort(selectionArr);
+    std::cout << "Sorted array using Selection Sort: ";
+    printArray(selectionArr);
+
+    // Linear Search
+    std::cout << "\nLinear Search for " << target << ": ";
+    int linearResult = linearSearch(arr, target);
+    if (linearResult != -1) {
+        std::cout << "Element found at index " << linearResult << std::endl;
+    } else {
+        std::cout << "Element not found" << std::endl;
+    }
+
+    // Binary Search (requires sorted array)
+    std::cout << "Binary Search for " << target << ": ";
+    std::sort(arr.begin(), arr.end()); // Ensure array is sorted
+    int binaryResult = binarySearch(arr, target);
+    if (binaryResult != -1) {
+        std::cout << "Element found at index " << binaryResult << std::endl;
+    } else {
+        std::cout << "Element not found" << std::endl;
+    }
+
+    return 0;
+}
